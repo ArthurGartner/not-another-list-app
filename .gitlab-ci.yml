@@ -17,25 +17,27 @@ services:
 before_script:
   - docker info
 
- # List of stages for jobs, and their order of execution
-stages:         
+  # List of stages for jobs, and their order of execution
+stages:
   - build
   - static_analysis
+  - dockerfile_linting
+  - sql_linting
   - test
   - deploy
 
 # This job runs in the build stage, which runs first.
-build-job:  # Name  
+build-job: # Name
   stage: build # Stage
   image: aymdev/dind-compose # Override the Base Image so we can have Compose
   before_script: # Scripts that run first -> typically "setup/verify everything is started correctly"
     - docker version
     - apk add --no-cache py-pip
     - pip install docker-compose
-    - docker-compose version 
+    - docker-compose version
   script: # Main part of the build-stage
     - docker-compose build
-  
+
 flake8: # Name
   stage: static_analysis # Stage
   image: "python:3.9" # Override the Base Image
@@ -47,14 +49,50 @@ flake8: # Name
     - flake8 --max-line-length=120 backend/src # Flake8 Lint Test
 
 # TODO: Add in Dockerfile Linter -> https://hadolint.github.io/hadolint/
+dockerfile-linter:
+  stage: dockerfile_linting #Linting of dockerfiles
+  image: hadolint/hadolint:latest-debian #Use hadolint image for linting
+  before_script:
+    - hadolint --version #Check that hadolint is installed properly
+  script: #Go through each Dockerfile
+    - hadolint backend/Dockerfile
+    - hadolint mysql/Dockerfile
+    - hadolint natl-frontend/Dockerfile
+    - hadolint tests/Dockerfile
 
 # TODO: Add in SQL Linter -> https://github.com/joereynolds/sql-lint
+sql-linter:
+  stage: sql_linting
+  image: node:16
+  before_script:
+    - node --version
+  script:
+    - npm i -g sql-lint
+    - sql-lint mysql/1_create_database.sql
+    - sql-lint mysql/2_create_test_data.sql
 
-unit-test-job:   # This job runs in the test stage.
-  stage: test    # Stage 
+unit-test-job: # This job runs in the test stage.
+  stage: test # Stage
   image: aymdev/dind-compose # Override the Base Image
   before_script: # Before script to make sure that everything is properly built before running tests (db, backend, frontend, test container)
     - docker-compose build --parallel
     - docker-compose up -d natl_backend_api db
   script:
     - docker-compose run --rm test || exit $? # Run the Tests and pass the docker exit code from the container back to the script to repeat
+
+deploy:
+  stage: deploy
+  image: docker:stable
+  before_script:
+    - docker login -u arthurgartner -p 125e0efc-915e-48c2-9cb4-9362bbcba673 docker.io
+    - cd backend
+    - docker build -t arthurgartner/nala-backend .
+    - cd ../mysql
+    - docker build -t arthurgartner/nala-sql .
+    - cd ../natl-frontend
+    - docker build -t arthurgartner/nala-frontend .
+
+  script:
+    - docker push arthurgartner/nala-backend
+    - docker push arthurgartner/nala-sql
+    - docker push arthurgartner/nala-frontend

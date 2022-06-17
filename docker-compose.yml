@@ -1,4 +1,4 @@
-version: "3.3" 
+version: "3.3"
 
 # TODO: Add a Service for the Frontend <- This would just make deployments easier in the future
 services:
