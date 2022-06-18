@@ -84,7 +84,7 @@ deploy:
   stage: deploy
   image: docker:stable
   before_script:
-    - docker login -u arthurgartner -p 125e0efc-915e-48c2-9cb4-9362bbcba673 docker.io
+    - docker login -u arthurgartner -p 125e0efc-915e-48c2-9cb4-9362bbcba673 docker.io # Access with this API key has been REVOKED!
     - cd backend
     - docker build -t arthurgartner/nala-backend .
     - cd ../mysql
