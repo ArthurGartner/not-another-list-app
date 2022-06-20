@@ -2,7 +2,7 @@ name: Docker multi-container stack testing.
 
 on:
   pull_request:
-    branches: [main, develop]
+    branches: [develop]
 
 jobs:
   docker-compose:
