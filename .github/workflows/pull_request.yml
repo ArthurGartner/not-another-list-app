@@ -1,4 +1,4 @@
-name: Docker multi-container stack test and deploy.
+name: Docker multi-container stack testing.
 
 on:
   pull_request:
@@ -32,3 +32,16 @@ jobs:
           pip install -U flake8
           flake8 --max-line-length=120
         working-directory: ${{ env.working-directory}}
+
+  hadolint-linter:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Lint dockerfiles
+        uses: hadolint/hadolint-action@v2.0.0
+        with:
+          dockerfile: ./backend/Dockerfile
+          dockerfile: ./mysql/Dockerfile
+          dockerfile: ./natl-frontend/Dockerfile
+          dockerfile: ./test/Dockerfile
