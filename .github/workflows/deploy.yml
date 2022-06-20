@@ -57,7 +57,7 @@ jobs:
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
 
-  push_backend_to_registry:
+  push_frontend_to_registry:
     name: Push frontend Docker image to Docker Hub
     runs-on: ubuntu-latest
     steps:
