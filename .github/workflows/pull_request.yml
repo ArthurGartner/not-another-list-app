@@ -38,10 +38,19 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-      - name: Lint dockerfiles
+      - name: Lint backend dockerfile
         uses: hadolint/hadolint-action@v2.0.0
         with:
-          dockerfile1: ./backend/Dockerfile
-          dockerfile2: ./mysql/Dockerfile
-          dockerfile3: ./natl-frontend/Dockerfile
-          dockerfile4: ./test/Dockerfile
+          dockerfile: ./backend/Dockerfile
+      - name: Lint SQL dockerfile
+        uses: hadolint/hadolint-action@v2.0.0
+        with:
+          dockerfile: ./mysql/Dockerfile
+      - name: Lint frontend dockerfile
+        uses: hadolint/hadolint-action@v2.0.0
+        with:
+          dockerfile: ./natl-frontend/Dockerfile
+      - name: Lint test dockerfile
+        uses: hadolint/hadolint-action@v2.0.0
+        with:
+          dockerfile: ./test/Dockerfile
