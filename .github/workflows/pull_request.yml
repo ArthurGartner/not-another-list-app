@@ -62,10 +62,11 @@ jobs:
         node-version: [14, 16]
     steps:
       - uses: actions/checkout@v3
-      - name: Run sql linter
+      - name: Setup node environment
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
+      - name: Execute sql linter
         run: |
           node --version
           npm i -g sql-lint
