@@ -53,4 +53,21 @@ jobs:
       - name: Lint test dockerfile
         uses: hadolint/hadolint-action@v2.0.0
         with:
-          dockerfile: ./test/Dockerfile
+          dockerfile: ./tests/Dockerfile
+
+  sql-linter:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [14, 16]
+    steps:
+      - uses: actions/checkout@v3
+      - name: Run sql linter
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+        run: |
+          node --version
+          npm i -g sql-lint
+          sql-lint mysql/1_create_database.sql
+          sql-lint mysql/2_create_test_data.sql
