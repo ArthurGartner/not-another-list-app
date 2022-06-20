@@ -80,6 +80,6 @@ jobs:
       - name: Run unit tests
         run: |
           docker-compose build --parallel
-          docker-compose up -d nat1_backend_api db
+          docker-compose up -d natl_backend_api db
           docker compose run --rm test
           exit $?
