@@ -41,7 +41,7 @@ jobs:
       - name: Lint dockerfiles
         uses: hadolint/hadolint-action@v2.0.0
         with:
-          dockerfile: ./backend/Dockerfile
-          dockerfile: ./mysql/Dockerfile
-          dockerfile: ./natl-frontend/Dockerfile
-          dockerfile: ./test/Dockerfile
+          dockerfile1: ./backend/Dockerfile
+          dockerfile2: ./mysql/Dockerfile
+          dockerfile3: ./natl-frontend/Dockerfile
+          dockerfile4: ./test/Dockerfile
