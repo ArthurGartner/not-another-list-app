@@ -1,7 +1,7 @@
 name: Deploy application
 
 on:
-  push:
+  pull_request:
     branches: [main]
 jobs:
   push_backend_to_registry:
