@@ -5,9 +5,30 @@ on:
     branches: [main, develop]
 
 jobs:
-  docker-compose:
+  Build with docker-compose:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Build images with docker-compose
         run: docker-compose build
+
+  Run Python linter:
+    runs-on: ubuntu-latest
+    env:
+      working-directory: ./backend/src
+    strategy:
+      matrix:
+        python-version: ["3.6", "3.7", "3.8", "3.9"]
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v3
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Install Python dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -U flake8
+          flake8 --max-line-length=120
+        working-directory: ${{ env.working-directory}}
