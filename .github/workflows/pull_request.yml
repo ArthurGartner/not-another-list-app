@@ -1,9 +1,11 @@
 name: Docker multi-container stack test and deploy.
+
 on:
   pull_request:
     branches: [main, develop]
+
 jobs:
-  docker-compose:
+  docker-compose test:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
