@@ -5,14 +5,14 @@ on:
     branches: [main, develop]
 
 jobs:
-  Build with docker-compose:
+  docker-compose:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
       - name: Build images with docker-compose
         run: docker-compose build
 
-  Run Python linter:
+  python_linter:
     runs-on: ubuntu-latest
     env:
       working-directory: ./backend/src
