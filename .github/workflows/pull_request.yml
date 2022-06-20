@@ -5,7 +5,7 @@ on:
     branches: [main, develop]
 
 jobs:
-  docker-compose test:
+  docker-compose:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
