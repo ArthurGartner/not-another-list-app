@@ -101,11 +101,7 @@ jobs:
           flags: "g"
 
       - name: Generate deployment package
-        uses: vimtor/action-zip@v1
-        with:
-          files: ./
-          recursive: true
-          dest: deploy.zip
+        run: zip -r deploy.zip . -x "**node_modules**"
 
       - name: Deploy to EB
         uses: einaregilsson/beanstalk-deploy@v16
