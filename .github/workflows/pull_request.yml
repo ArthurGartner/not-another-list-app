@@ -53,6 +53,10 @@ jobs:
         uses: hadolint/hadolint-action@v2.0.0
         with:
           dockerfile: ./natl-frontend/Dockerfile
+      - name: Lint frontend dev dockerfile
+        uses: hadolint/hadolint-action@v2.0.0
+        with:
+          dockerfile: ./natl-frontend/Dockerfile.dev
       - name: Lint test dockerfile
         uses: hadolint/hadolint-action@v2.0.0
         with:
