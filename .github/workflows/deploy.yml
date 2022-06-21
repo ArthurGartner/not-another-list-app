@@ -41,7 +41,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@v4
         with:
-          images: arthurgartner/nala-backend
+          images: arthurgartner/nala-sql
 
       - name: Log in to Docker Hub
         uses: docker/login-action@v2
@@ -68,7 +68,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@v4
         with:
-          images: arthurgartner/nala-backend
+          images: arthurgartner/nala-frontend
 
       - name: Log in to Docker Hub
         uses: docker/login-action@v2
