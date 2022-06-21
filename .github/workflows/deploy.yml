@@ -85,8 +85,6 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
 
   aws-deploy:
-    needs:
-      [push_backend_to_registry, push_db_to_registry, push_frontend_to_registry]
     runs-on: ubuntu-latest
     steps:
       - name: Get timestamp
@@ -103,7 +101,7 @@ jobs:
           flags: "g"
 
       - name: Generate deployment package
-        run: zip -r deploy.zip * -x "**node_modules**"
+        run: zip -r deploy.zip ./ -x "**node_modules**"
 
       - name: Deploy to EB
         uses: einaregilsson/beanstalk-deploy@v16
