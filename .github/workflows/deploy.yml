@@ -103,8 +103,8 @@ jobs:
       - name: Generate deployment package
         uses: vimtor/action-zip@v1
         with:
-          files: ./Dockerrun.aws.json
-          recursive: false
+          files: ./
+          recursive: true
           dest: deploy.zip
 
       - name: Deploy to EB
