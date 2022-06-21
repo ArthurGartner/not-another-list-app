@@ -1,13 +1,11 @@
-FROM node:16
+FROM node:16 as build
 
-WORKDIR /opt/natl-frontend
-
-COPY package.json package.json
-COPY package-lock.json package-lock.json
-
+WORKDIR '/app'
+COPY package.json ./
 RUN npm install
+COPY . .
+RUN npm run build
 
-COPY src src
-COPY public public
+FROM nginx:stable
+COPY --from=build /app/build /usr/share/nginx/html
 
-CMD ["bash", "-c", "npm run-script start" ]
